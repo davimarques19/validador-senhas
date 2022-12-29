@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Validador.iml" filepath="$PROJECT_DIR$/.idea/Validador.iml" />
+      <module fileurl="file://$PROJECT_DIR$/senha/senha.iml" filepath="$PROJECT_DIR$/senha/senha.iml" />
     </modules>
   </component>
 </project>
