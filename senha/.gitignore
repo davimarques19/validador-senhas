@@ -31,7 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Idea ###
-**/.idea/workspace.xml
-**/.idea/tasks.xml
