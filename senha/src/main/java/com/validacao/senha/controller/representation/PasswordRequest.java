@@ -1,4 +1,4 @@
-package com.validacao.senha.domain;
+package com.validacao.senha.controller.representation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDomain {
+public class PasswordRequest {
 
     private String input;
-    private Boolean output;
+
 }

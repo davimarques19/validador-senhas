@@ -1,11 +1,9 @@
-package com.validacao.senha.reposiitory.impl;
+package com.validacao.senha.repository.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class UserRepositoryImplTest {
+class PasswordRepositoryImplTest {
 
     @BeforeEach
     void setUp() {
