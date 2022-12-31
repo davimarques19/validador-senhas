@@ -1,14 +1,12 @@
 package com.validacao.senha.service;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
-import com.validacao.senha.exception.PasswordRunTimeException;
 import com.validacao.senha.domain.Password;
+import com.validacao.senha.exception.PasswordRunTimeException;
 import com.validacao.senha.repository.PasswordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service

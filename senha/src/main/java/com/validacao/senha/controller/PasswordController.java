@@ -2,9 +2,9 @@ package com.validacao.senha.controller;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
 import com.validacao.senha.domain.Password;
+import com.validacao.senha.mapper.PasswordMapper;
 import com.validacao.senha.service.PasswordService;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @Slf4j
-@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/validator")
 public class PasswordController {
 
     @Autowired
-    final PasswordService service;
+    PasswordService service;
 
     @PostMapping
     @ApiOperation(value = "Validador de senhas.")
@@ -32,7 +29,7 @@ public class PasswordController {
         Password retorno = service.getPassword(password);
 
         return retorno != null ?
-                ResponseEntity.ok(retorno) :
+                ResponseEntity.ok(PasswordMapper.toPasswordResponse(retorno)) :
                 ResponseEntity.badRequest().build();
     }
 
