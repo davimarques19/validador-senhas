@@ -2,7 +2,7 @@ package com.validacao.senha.service;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
 import com.validacao.senha.exception.PasswordBadRequestException;
-import com.validacao.senha.model.Password;
+import com.validacao.senha.domain.Password;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,18 +16,18 @@ public class ValidatorService {
     @Autowired
     ValidatorBooleanService validatorBooleanService;
 
-    public Optional<Password> validate(PasswordRequest passwordRequest) {
+    public Password validate(PasswordRequest passwordRequest) {
         log.info("Iniciando consulta ValidatorService.validate");
 
-        Optional<Password> retorno = Optional.of(new Password());
+        Password retorno = new Password();
 
         if (validatorBooleanService.validateBoolean(passwordRequest)) {
-            retorno.get().setInput(passwordRequest.getInput());
-            retorno.get().setOutput(true);
+            retorno.setInput(passwordRequest.getInput());
+            retorno.setOutput(true);
             return retorno;
         } else {
-            retorno.get().setInput(passwordRequest.getInput());
-            retorno.get().setOutput(false);
+            retorno.setInput(passwordRequest.getInput());
+            retorno.setOutput(false);
             throw new PasswordBadRequestException("Um ou mais requisitos da senha não foram preenchidos, tente novamente.");
         }
     }

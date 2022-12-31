@@ -1,13 +1,16 @@
-package com.validacao.senha.model;
+package com.validacao.senha.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "TB_PASSWORD")
 public class Password implements Serializable {
@@ -18,9 +21,9 @@ public class Password implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "PASSWORD", nullable = false, length = 100)
     private String input;
 
-    @Column
+    @Column(name = "PASSWORD_STATUS", nullable = false, length = 6)
     private Boolean output;
 }

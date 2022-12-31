@@ -1,7 +1,7 @@
 package com.validacao.senha.controller;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
-import com.validacao.senha.model.Password;
+import com.validacao.senha.domain.Password;
 import com.validacao.senha.service.PasswordService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class PasswordController {
     public ResponseEntity getPassword(@RequestBody PasswordRequest password) {
         log.info("Inicianco consulta no controller");
 
-        Optional<Password> retorno = service.getPassword(password);
+        Password retorno = service.getPassword(password);
 
         return retorno != null ?
                 ResponseEntity.ok(retorno) :
