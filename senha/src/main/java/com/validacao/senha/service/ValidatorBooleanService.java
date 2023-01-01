@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidatorBooleanService {
 
-    //    final String REGEX_VALIDATOR = "^(?=.*\\S)(?=.*\\d)(?=.*[!@#$%^&*()-+])(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
-    final String REGEX_VALIDATOR = "^(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
+    final String REGEX_VALIDATOR = "^(?=.*\\S)(?=.*\\d)(?=.*[!@#$%^&*()-+])(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
 
 
     public Boolean validateBoolean(PasswordRequest request) {
