@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PasswordController {
 
     private final PasswordService service;
-
     public PasswordController(PasswordService service) {
         this.service = service;
     }
