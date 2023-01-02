@@ -25,7 +25,7 @@ public class ValidatorPasswordService {
 
         Password retorno = new Password();
 
-        validatePasswordCharDuplicate(passwordRequest);
+        validateCharacterDuplicate(passwordRequest);
 
         if (passwordRequest.getInput().matches(REGEX_VALIDATOR)) {
             retorno.setInput(encoder.encode(passwordRequest.getInput()));
@@ -38,7 +38,9 @@ public class ValidatorPasswordService {
         }
     }
 
-    private void validatePasswordCharDuplicate(PasswordRequest request) {
+    private void validateCharacterDuplicate(PasswordRequest request) {
+        log.info("Iniciando consulta ValidatorService.validatePasswordCharDuplicate");
+
         request.getInput().chars()
                 .mapToObj(c -> Character.toLowerCase((char) c))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
