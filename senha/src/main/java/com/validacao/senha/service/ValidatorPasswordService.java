@@ -28,7 +28,7 @@ public class ValidatorPasswordService {
 
         if (passwordRequest.getInput().matches(REGEX_VALIDATOR)) {
             retorno.setInput(encryptPasswordService.encrypt(passwordRequest));
-            encryptPasswordService.decrypt(retorno, passwordRequest);
+//            encryptPasswordService.decrypt(retorno, passwordRequest);
             retorno.setOutput(true);
             return retorno;
         } else {
