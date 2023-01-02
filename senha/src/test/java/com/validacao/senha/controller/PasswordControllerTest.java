@@ -3,18 +3,15 @@ package com.validacao.senha.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.validacao.senha.controller.representation.PasswordRequest;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
 class PasswordControllerTest {
@@ -23,18 +20,18 @@ class PasswordControllerTest {
     private MockMvc mock;
 
     @Test
-    public void deveriaRetornar200AoEfetuarRequisicaoComInputValidoTest() throws Exception {
+    public void shouldReturn201WithValidInputTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
-                .post("/v1/validator")
-                .content(asJsonString(new PasswordRequest("AbTp9!fok")))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                        .post("/v1/validator")
+                        .content(asJsonString(new PasswordRequest("AbTp9!fok")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoComCaracterDuplicadoSeguidoTest() throws Exception {
+    public void shouldReturn400WithDoubleCharacterEqualsTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -45,7 +42,7 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoComMenosDeNoveCaracteresTest() throws Exception {
+    public void shouldReturn400WithoutMinCharactersTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -56,18 +53,18 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComLetrasMinusculasTest() throws Exception {
+    public void shouldReturn400JustWithLowerCaseTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
-                        .content(asJsonString(new PasswordRequest("Abcdefghi")))
+                        .content(asJsonString(new PasswordRequest("abcdefghi")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComNumerosTest() throws Exception {
+    public void shouldReturn400JustWithNumbersTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -78,7 +75,7 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComNumerosELetrasMinusculasTest() throws Exception {
+    public void shouldReturn400WithNumbersAndLowerCaseTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -89,7 +86,18 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComNumerosELetrasMaiusculasTest() throws Exception {
+    public void shouldReturn400WithouUpperCaseAndSpecialCharacterTest() throws Exception {
+
+        mock.perform(MockMvcRequestBuilders
+                        .post("/v1/validator")
+                        .content(asJsonString(new PasswordRequest("123456abcd")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturn400WithNumbersAndUpperCaseTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -100,7 +108,7 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComNumerosELetrasMaiusculasEMinusculasTest() throws Exception {
+    public void shouldReturn400WithNumbersLowerCaseAndUpperCaseTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -111,7 +119,7 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoApenasComNumerosELetrasMaiusculasEMinusculasEEspacoTest() throws Exception {
+    public void shouldReturn400WithNumberAndUpperCaseAndLowerCaseAndEmptyTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -122,7 +130,7 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar400AoEfetuarRequisicaoVaziaTest() throws Exception {
+    public void shouldReturn400WithEmptyCaseTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
@@ -133,14 +141,14 @@ class PasswordControllerTest {
     }
 
     @Test
-    public void deveriaRetornar500AoEfetuarRequisicaoComBodyNuloTest() throws Exception {
+    public void shouldReturn400WithBodyNullTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
                         .content(asJsonString(new PasswordRequest(null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     public static String asJsonString(final Object obj) {
@@ -150,4 +158,5 @@ class PasswordControllerTest {
             throw new RuntimeException(e);
         }
     }
+
 }

@@ -1,7 +1,7 @@
 package com.validacao.senha.controller;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
-import com.validacao.senha.domain.Password;
+import com.validacao.senha.exception.PasswordBadRequestException;
 import com.validacao.senha.mapper.PasswordMapper;
 import com.validacao.senha.service.PasswordService;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 @Slf4j
 @RestController
@@ -24,13 +26,16 @@ public class PasswordController {
     @PostMapping
     @ApiOperation(value = "Validador de senhas.")
     public ResponseEntity getPassword(@RequestBody PasswordRequest password) {
+
         log.info("Inicianco consulta no controller");
 
-        Password retorno = service.getPassword(password);
+        try {
+            return ResponseEntity.created(URI.create("/v1/validator/" + password.getInput()))
+                    .body(PasswordMapper.toPasswordResponse(service.getPassword(password)));
+        } catch (Exception ex) {
+            throw new PasswordBadRequestException("Erro");
+        }
 
-        return retorno != null ?
-                ResponseEntity.ok(PasswordMapper.toPasswordResponse(retorno)) :
-                ResponseEntity.badRequest().build();
     }
 
 }

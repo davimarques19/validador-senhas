@@ -10,10 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ValidatorService {
+public class ValidatorPasswordService {
 
-    @Autowired
-    ValidatorBooleanService validatorBooleanService;
+    final String REGEX_VALIDATOR = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-+])(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
 
     @Autowired
     PasswordEncoder encoder;
@@ -23,7 +22,7 @@ public class ValidatorService {
 
         Password retorno = new Password();
 
-        if (validatorBooleanService.validateBoolean(passwordRequest)) {
+        if (validateBoolean(passwordRequest)) {
             retorno.setInput(encoder.encode(passwordRequest.getInput()));
             retorno.setOutput(true);
             return retorno;
@@ -33,5 +32,18 @@ public class ValidatorService {
             throw new PasswordBadRequestException("Um ou mais requisitos da senha não foram preenchidos, tente novamente.");
         }
     }
+
+    private Boolean validateBoolean(PasswordRequest request) {
+        log.info("Iniciando acesso a classe ValidatorService.validateBoolean");
+
+        if (request.getInput().matches(REGEX_VALIDATOR)) {
+            log.info("Setando -> true ValidatorService.validateBoolean");
+            return true;
+        } else {
+            log.info("Setando -> false ValidatorService.validateBoolean");
+            return false;
+        }
+    }
+
 
 }
