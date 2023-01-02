@@ -2,10 +2,7 @@ package com.validacao.senha.service;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
 import com.validacao.senha.domain.Password;
-import com.validacao.senha.exception.PasswordBadRequestException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -15,10 +12,12 @@ import java.util.stream.Collectors;
 @Component
 public class ValidatorPasswordService {
 
-    final String REGEX_VALIDATOR = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-+])(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
+    private final String REGEX_VALIDATOR = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-+])(?:([0-9a-zA-Z!@#$%^&*()-+])(?!\\1)){9,}$";
+    private final EncryptPasswordService encryptPasswordService;
 
-    @Autowired
-    PasswordEncoder encoder;
+    public ValidatorPasswordService(EncryptPasswordService encryptPasswordService) {
+        this.encryptPasswordService = encryptPasswordService;
+    }
 
     public Password validate(PasswordRequest passwordRequest) {
         log.info("Iniciando consulta ValidatorService.validate");
@@ -28,13 +27,14 @@ public class ValidatorPasswordService {
         validateCharacterDuplicate(passwordRequest);
 
         if (passwordRequest.getInput().matches(REGEX_VALIDATOR)) {
-            retorno.setInput(encoder.encode(passwordRequest.getInput()));
+            retorno.setInput(encryptPasswordService.encrypt(passwordRequest));
+            encryptPasswordService.decrypt(retorno, passwordRequest);
             retorno.setOutput(true);
             return retorno;
         } else {
             retorno.setInput(passwordRequest.getInput());
             retorno.setOutput(false);
-            throw new PasswordBadRequestException("Um ou mais requisitos da senha não foram preenchidos, tente novamente.");
+            return retorno;
         }
     }
 
@@ -42,7 +42,7 @@ public class ValidatorPasswordService {
         log.info("Iniciando consulta ValidatorService.validatePasswordCharDuplicate");
 
         request.getInput().chars()
-                .mapToObj(c -> Character.toLowerCase((char) c))
+                .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .forEach((key, value) -> {
                     if (value > 1) {
