@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Component
 public class ValidatorPasswordService {
@@ -22,7 +25,9 @@ public class ValidatorPasswordService {
 
         Password retorno = new Password();
 
-        if (validateBoolean(passwordRequest)) {
+        validatePasswordCharDuplicate(passwordRequest);
+
+        if (passwordRequest.getInput().matches(REGEX_VALIDATOR)) {
             retorno.setInput(encoder.encode(passwordRequest.getInput()));
             retorno.setOutput(true);
             return retorno;
@@ -33,17 +38,14 @@ public class ValidatorPasswordService {
         }
     }
 
-    private Boolean validateBoolean(PasswordRequest request) {
-        log.info("Iniciando acesso a classe ValidatorService.validateBoolean");
-
-        if (request.getInput().matches(REGEX_VALIDATOR)) {
-            log.info("Setando -> true ValidatorService.validateBoolean");
-            return true;
-        } else {
-            log.info("Setando -> false ValidatorService.validateBoolean");
-            return false;
-        }
+    private void validatePasswordCharDuplicate(PasswordRequest request) {
+        request.getInput().chars()
+                .mapToObj(c -> Character.toLowerCase((char) c))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .forEach((key, value) -> {
+                    if (value > 1) {
+                        request.setInput(" ");
+                    }
+                });
     }
-
-
 }
