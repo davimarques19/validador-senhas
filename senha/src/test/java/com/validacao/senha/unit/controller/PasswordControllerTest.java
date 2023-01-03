@@ -20,7 +20,7 @@ class PasswordControllerTest {
     private MockMvc mock;
 
     @Test
-    public void shouldReturn201WithValidInputTest() throws Exception {
+    public void shouldReturn200WithValidInputTest() throws Exception {
 
         mock.perform(MockMvcRequestBuilders
                         .post("/v1/validator")
