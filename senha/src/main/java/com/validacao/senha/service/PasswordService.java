@@ -5,19 +5,18 @@ import com.validacao.senha.domain.Password;
 import com.validacao.senha.exception.PasswordBadRequestException;
 import com.validacao.senha.repository.PasswordRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class PasswordService {
 
-    private final PasswordRepository repository;
-    private final ValidatorPasswordService validatorPasswordService;
+    @Autowired
+    PasswordRepository repository;
 
-    public PasswordService(PasswordRepository repository, ValidatorPasswordService validatorPasswordService) {
-        this.repository = repository;
-        this.validatorPasswordService = validatorPasswordService;
-    }
+    @Autowired
+    ValidatorPasswordService validatorPasswordService;
 
     public Password validatePassword(PasswordRequest password) {
         log.info("Iniciando consulta UserService.validatePassword");
