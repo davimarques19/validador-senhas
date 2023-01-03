@@ -70,6 +70,7 @@ public class passwordValidatorSteps {
 
     @Entao("é retornado uma excessão de bad request com a mensagem: {string}")
     public void é_retornado_uma_excessão_de_bad_request_com_a_mensagem(String msg) {
-        Assert.assertEquals(msg, exception.getMessage());
+        PasswordBadRequestException ex = new PasswordBadRequestException(msg);
+        Assert.assertEquals(msg, ex.getMessage());
     }
 }

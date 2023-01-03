@@ -1,4 +1,4 @@
-package com.validacao.senha;
+package com.validacao.senha.unit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

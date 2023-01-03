@@ -16,4 +16,4 @@ Funcionalidade: Propondo senhas
   Cenario: Propondo nulo no campo senha
     Dado que o campo senha veio nulo
     Quando a mesma nao for válida
-    Entao é retornado uma excessão de bad request com a mensagem: "  "
+    Entao é retornado uma excessão de bad request com a mensagem: "Um ou mais requisitos da senha não foram preenchidos, tente novamente."
