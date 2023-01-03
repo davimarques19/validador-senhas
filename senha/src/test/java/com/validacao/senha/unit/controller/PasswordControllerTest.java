@@ -1,4 +1,4 @@
-package com.validacao.senha.controller;
+package com.validacao.senha.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.validacao.senha.controller.representation.PasswordRequest;

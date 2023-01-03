@@ -1,4 +1,4 @@
-package com.validacao.senha.mock;
+package com.validacao.senha.unit.mock;
 
 import com.validacao.senha.domain.Password;
 

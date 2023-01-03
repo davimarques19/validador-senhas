@@ -1,8 +1,6 @@
-package com.validacao.senha.mock;
+package com.validacao.senha.unit.mock;
 
 import com.validacao.senha.controller.representation.PasswordRequest;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public class PasswordRequestMock {
 

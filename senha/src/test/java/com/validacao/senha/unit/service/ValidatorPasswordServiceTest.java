@@ -1,8 +1,10 @@
-package com.validacao.senha.service;
+package com.validacao.senha.unit.service;
 
 import com.validacao.senha.domain.Password;
-import com.validacao.senha.mock.PasswordMock;
-import com.validacao.senha.mock.PasswordRequestMock;
+import com.validacao.senha.unit.mock.PasswordMock;
+import com.validacao.senha.unit.mock.PasswordRequestMock;
+import com.validacao.senha.service.EncryptPasswordService;
+import com.validacao.senha.service.ValidatorPasswordService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
